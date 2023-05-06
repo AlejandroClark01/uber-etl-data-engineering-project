@@ -16,12 +16,15 @@ def export_data_to_big_query(data, **kwargs) -> None:
 
     Docs: https://docs.mage.ai/design/data-loading#bigquery
     """
-    table_id = 'pelagic-pathway-385803.uber_dataset.fact_table'
+
     config_path = path.join(get_repo_path(), 'io_config.yaml')
     config_profile = 'default'
 
-    BigQuery.with_config(ConfigFileLoader(config_path, config_profile)).export(
-        DataFrame(data["fact_table"]),
-        table_id,
-        if_exists='replace',  # Specify resolution policy if table name already exists
-    )
+    # Here we make a for loop to load all our dictionary keys and their values
+   for key, value in data.items():
+        table_id = 'pelagic-pathway-385803.uber_dataset.{}'.format(key)
+        BigQuery.with_config(ConfigFileLoader(config_path, config_profile)).export(
+            DataFrame(value),
+            table_id,
+            if_exists='replace',  # Specify resolution policy if table name already exists
+        )
