@@ -1,6 +1,6 @@
 CREATE OR REPLACE TABLE `pelagic-pathway-385803.uber_dataset.table_analytics` AS (
 SELECT 
-f.trip_id
+f.trip_id,
 f.VendorID,
 d.tpep_pickup_datetime,
 d.tpep_dropoff_datetime,
